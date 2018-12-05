@@ -106,4 +106,14 @@ class CompanyStoreController extends Controller
         return $values;
     }
 
+    public function getBaseForCompanyUbigeoAudit(Request $request)
+    {
+        $valoresPost= $request->all();//dd($valoresPost);
+        $company_id = $valoresPost['company_id'];
+        $ubigeo = $valoresPost['ubigeo'];
+        $audt_id = $valoresPost['audit_id'];
+        $values=$this->companyStoreRepo->getBaseForCompanyUbigeoAudit($company_id,$audt_id,$ubigeo);
+        return $values;
+    }
+
 }

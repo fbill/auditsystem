@@ -92,11 +92,30 @@ class AuditController extends Controller
         //
     }
 
-
-    public function getMenusForCompany($company_id)
+    public function getAuditsForCompany($company_id)
     {
-        $audits = $this->auditRepo->getAuditsForCompanyId($company_id);
-        $structMenu = $this->getMenus($audits);
+        return $this->auditRepo->getAuditsForCompanyId($company_id);
+    }
+
+    public function getMenusForCompany($study_id,$company_id="0")
+    {
+        if ($company_id=="0")
+        {
+            $audits = $this->auditRepo->getAuditsForCompanyId($company_id);
+            $structMenu = $this->getMenus($audits);
+        }else{
+            switch ($study_id) {
+                case 17:
+                    $structMenu[] = array('name'=>'Panel de Control','icon'=>'icon-speedometer');
+                    $structMenu[] = array('title'=>true,'name'=>'Auditorias');
+                    $structMenu[] = array('id'=>1,'name'=>'Home','url'=>'/panel','icon'=>'icon-drop');
+                    break;
+                default:
+                    $structMenu=[];
+                    break;
+            }
+        }
+
         return $structMenu;
     }
 }

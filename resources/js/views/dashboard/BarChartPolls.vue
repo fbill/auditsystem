@@ -17,7 +17,6 @@
                 //         }
                 //     ]
                 // })
-
                 this.renderChart(this.dataPollBar, {responsive: true, maintainAspectRatio: false})
             }
     })

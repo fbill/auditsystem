@@ -96,9 +96,9 @@ class PollDetailsController extends Controller
         //
     }
 
-    public function getRegsForPollId($poll_id,$type)
+    public function getRegsForPollId($poll_id,$type,$ubigeo="0")
     {
-        $valores = $this->pollDetailRepo->getPollDetailsForPollId($poll_id);
+        $valores = $this->pollDetailRepo->getPollDetailsForPollId($poll_id,$ubigeo);
         $myArray = collect($valores);
         if (($type==1) or ($type==3))
         {

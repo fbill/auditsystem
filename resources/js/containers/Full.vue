@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       nav: [],
-      company_id:203,
+      study_id:17,
     }
   },
   mounted(){
@@ -39,7 +39,7 @@ export default {
   },
   methods:{
         getMenus(){
-            let urlCombo = '/api/getMenus/' + this.company_id ;
+            let urlCombo = '/api/getMenus/' + this.study_id ;
             axios.get(urlCombo)
                 .then((response) => {
                     this.nav = response.data

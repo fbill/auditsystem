@@ -5,7 +5,8 @@
                 <div class="col-sm-12 col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <strong>Filter</strong> Elements</div>
+                            <strong>Filter</strong> Elements
+                        </div>
                         <form class="form-horizontal" @submit.prevent="postValues">
                         <div class="card-body">
                                 <div class="form-group row">

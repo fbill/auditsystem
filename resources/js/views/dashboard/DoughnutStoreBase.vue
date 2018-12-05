@@ -5,7 +5,7 @@
     export default {
         extends: Doughnut,
         mixins: [reactiveProp],
-        mounted () {
+        mounted () { console.log(this.datacollection);
             this.renderChart(this.datacollection, {responsive: true, maintainAspectRatio: false})
         }
     }

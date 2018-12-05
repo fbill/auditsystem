@@ -129,107 +129,73 @@ class PublicityController extends Controller
         }else{
             $tipo ="0";
         }
-        $storesxCampaigne1 = $this->publicityRepo->getPublicityAlicorp($city,$auditor,$publicity_id,$company_id);
-        $objPolls = $this->pollRepo->getQuestionForWeb($company_id);
+
+        $objPolls = $this->pollRepo->getQuestionForWeb($company_id);//dd($objPolls);
         foreach ($objPolls as $objPoll) {
             if (($objPoll['identificador']=='abierto') and ($objPoll['company_id']==$company_id))
             {
-                $valoresCampaigne[$company_id]['abierto'] = $objPoll['poll_id'];
+                $valoresCampaigne[$company_id]['abierto'] = $objPoll['id'];
             }
             if (($objPoll['identificador']=='permitio') and ($objPoll['company_id']==$company_id))
             {
-                $valoresCampaigne[$company_id]['permitio'] = $objPoll['poll_id'];
+                $valoresCampaigne[$company_id]['permitio'] = $objPoll['id'];
             }
             if (($objPoll['identificador']=='existeVent') and ($objPoll['company_id']==$company_id))
             {
-                $valoresCampaigne[$company_id]['existeVent'] = $objPoll['poll_id'];
+                $valoresCampaigne[$company_id]['existeVent'] = $objPoll['id'];
             }
             if (($objPoll['identificador']=='ventanaW') and ($objPoll['company_id']==$company_id))
             {
-                $valoresCampaigne[$company_id]['ventanaW'] = $objPoll['poll_id'];
+                $valoresCampaigne[$company_id]['ventanaW'] = $objPoll['id'];
             }
         }
+        $storesxCampaigne1 = $this->publicityRepo->getPublicityAlicorp($city,$auditor,$publicity_id,$company_id);
+
         if ($tipo=="Sod"){
             if (count($storesxCampaigne1)>0)
             {
-                $collectStores = Collection::make($storesxCampaigne1);
-                $grouped = $collectStores->groupBy('store_id');//dd($grouped[196514]);
+                $collectStores = Collection::make($storesxCampaigne1);//dd($collectStores);
+                $groupedAbierto = $collectStores->where('poll_id',$valoresCampaigne[$company_id]['abierto'])->where('result',1);
+                $grouped = $groupedAbierto->groupBy('store_id');
+                $groupedPermitio = $collectStores->where('poll_id',$valoresCampaigne[$company_id]['permitio'])->where('result',1);
+                $grouped1 = $groupedPermitio->groupBy('store_id');
+                $groupedExiste = $collectStores->where('poll_id',$valoresCampaigne[$company_id]['existeVent'])->where('result',1);
+                $grouped2 = $groupedExiste->groupBy('store_id');
+                $groupedTrabajada = $collectStores->where('poll_id',$valoresCampaigne[$company_id]['ventanaW'])->where('result',$trabajada);
+                $grouped3 = $groupedTrabajada->groupBy('store_id');
+
                 foreach ($grouped as $index =>$store)
                 {
-                    $storeAbierto="Si";$permitio="Si";$existeVent="Si";$ventW="Si";
-                    //$store agrupa u array de objetos por cada poll_details_id
-                    //if ($store->result == null){$result = 0;}else{$result = 1;}
-                    //$publicty_detail_id = $store->publicity_details_id;$sod = $store->sod;
-                    $collectPolls = Collection::make($store);
-                    $grouped1 = $collectPolls->groupBy('poll_id');dd($grouped1);
-                    //$grouped2 = $grouped1->where('')
-                    foreach ($grouped1 as $index1 =>$store1)
-                    {
-                        if ($index1==$valoresCampaigne[$company_id]['abierto']){
-                            if (($store1[0]->result==1) and ($store1[0]->publicity_id==0))
-                            {
-                                $storeAbierto= "Si";
-                            }else{
-                                $storeAbierto= "No";
-                            }
-
-                        }else{
-                            if ($index1==$valoresCampaigne[$company_id]['permitio'])
-                            {
-                                if (($store1[0]->result==1)  and ($store1[0]->publicity_id==0)){
-                                    $permitio='Si';
-                                }else{
-                                    $permitio='No';
-                                }
-                            }else{
-                                if ($index1==$valoresCampaigne[$company_id]['existeVent'])
-                                {
-                                    if (($store1[0]->result==1)  and ($store1[0]->publicity_id==$publicity_id)){
-                                        $existeVent="Si";
-                                    }else{
-                                        $existeVent="No";
-                                    }
-                                }else{
-                                    if ($index1==$valoresCampaigne[$company_id]['ventanaW'])
-                                    {
-                                        if ($trabajada==1)
-                                        {
-                                            if (($store1[0]->result==1)  and ($store1[0]->publicity_id==$publicity_id)){
-                                                $ventW = "Si";
-                                            }else{
-                                                $ventW = "No";
-                                            }
-                                        }else{
-                                            if (($store1[0]->result==0)  and ($store1[0]->publicity_id==$publicity_id)){
-                                                $ventW = "No";
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                    foreach ($grouped1 as $index1=>$item) {
+                        if ($index==$index1)
+                        {
+                            $filterCol[$index] = $item;break;
                         }
-                        $resultFiltro[$index] = array('abierto' => $storeAbierto,'permitio' => $permitio,'existe' => $existeVent,'trabajada' => $ventW);
-                        //if (($store1[0]->store_id==186667) and ($publicity_id==961)){dd($trabajada,$store1[0],$index1,$this->valoresCampaigne[$company_id]['ventanaW'],$resultFiltro);}
                     }
-                    //if ($store1[0]->store_id==186667){dd($resultFiltro);}
-                }//dd($resultFiltro);
-                $storesxCampaigne=[];
-                foreach ($resultFiltro as $index2 =>$store2){
-                    if ($trabajada==1){$respW="Si";}else{$respW="No";}
-                    if (($store2['abierto']=="Si") and ($store2['permitio']=="Si") and ($store2['existe']=="Si") and ($store2['trabajada']==$respW)){
 
-                        foreach ($grouped[$index2] as $values){
-                            if ($values->publicity_id==$publicity_id){
-                                $foto = $values->Foto;
-                                $sod = $values->sod;
-                            }
+                }
+                foreach ($filterCol as $index => $store) {
+                    foreach ($grouped2 as $index1=> $item) {
+                        if ($index==$index1)
+                        {
+                            $filterCol1[$index] = $item;break;
                         }
-                        $storesxCampaigne[] = array('store_id' => $grouped[$index2][0]->store_id,'filtros' => $resultFiltro[$index2],'fullname' =>$grouped[$index2][0]->fullname,'auditor_id' =>$auditor, 'auditor' =>$obAuditor->fullname,'departamento'=>$grouped[$index2][0]->ubigeo,'fecha' =>$grouped[$index2][0]->fecha,'hora' => $grouped[$index2][0]->hora,'result'=>1,'foto' => $foto,'publicity_detail_id' => $grouped[$index2][0]->publicity_details_id,'sod'=>$sod);
                     }
                 }
+
+                foreach ($filterCol1 as $index=> $store) {
+                    foreach ($grouped3 as $index1=> $item) {
+                        if ($index==$index1)
+                        {
+                            $storesxCampaigne[$index] = $item;break;
+                        }
+                    }
+                }
+                dd($storesxCampaigne);
             }else{
                 $storesxCampaigne = [];
             }
         }
+        return $storesxCampaigne;
     }
 }

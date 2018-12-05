@@ -36,9 +36,9 @@ WHERE
         return $results;
     }
 
-    public function getPollsForCategory($category_id)
+    public function getPollsForCategory($category_id,$company_audit_id)
     {
-        return Poll::where('category_id',$category_id)->get();
+        return Poll::where('category_id',$category_id)->where('company_audit_id',$company_audit_id)->get();
     }
 
     public function getQuestionForWeb($company_id)

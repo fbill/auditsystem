@@ -22,7 +22,7 @@ class AuditRepo extends Repository
 
     public function getAuditsForCompanyId($company_id)
     {
-        $results = DB::select('SELECT id,audit_id,(select fullname from audits where id=c.audit_id ) as audit FROM company_audits c where company_id=?', [ $company_id]);
+        $results = DB::select('SELECT id,audit_id,(select fullname from audits where id=c.audit_id ) as nameAudit FROM company_audits c where c.audit=1 and  c.company_id=?', [ $company_id]);
         return $results;
     }
 

@@ -97,8 +97,8 @@ class PollController extends Controller
         return $this->pollRepo->categoriesPollForCompanyAudit($company_id,$company_audit_id);
     }
 
-    public function getPollsForCategory($category_id)
+    public function getPollsForCategory($category_id,$company_audit_id)
     {
-        return $this->pollRepo->getPollsForCategory($category_id);
+        return $this->pollRepo->getPollsForCategory($category_id,$company_audit_id);
     }
 }
