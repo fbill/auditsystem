@@ -36,7 +36,7 @@
           <b-dropdown-item><i class="fa fa-file"></i> Projects<span class="badge badge-primary">42</span></b-dropdown-item>
           <b-dropdown-divider></b-dropdown-divider>
           <b-dropdown-item><i class="fa fa-shield"></i> Lock Account</b-dropdown-item>-->
-          <b-dropdown-item><i class="fa fa-lock"></i> Logout</b-dropdown-item>
+          <b-dropdown-item @click="logout"><i class="fa fa-lock"></i> Logout</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-nav>
       <button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" @click="asideToggle">&#9776;</button>
@@ -63,7 +63,10 @@ export default {
     asideToggle (e) {
       e.preventDefault()
       document.body.classList.toggle('aside-menu-hidden')
-    }
+    },
+      logout () {
+          window.location = '/logout';
+      }
   }
 }
 </script>
