@@ -10,19 +10,19 @@
         <b-nav-item class="px-3">Settings</b-nav-item>
       </b-nav>-->
       <b-nav is-nav-bar class="ml-auto">
-        <b-nav-item class="d-md-down-none">
+        <!--<b-nav-item class="d-md-down-none">
           <i class="icon-bell"></i><span class="badge badge-pill badge-danger">0</span>
-        </b-nav-item>
-        <b-nav-item class="d-md-down-none">
+        </b-nav-item>-->
+        <!--<b-nav-item class="d-md-down-none">
           <i class="icon-list"></i>
-        </b-nav-item>
-        <b-nav-item class="d-md-down-none">
+        </b-nav-item>-->
+        <!--<b-nav-item class="d-md-down-none">
           <i class="icon-location-pin"></i>
-        </b-nav-item>
+        </b-nav-item>-->
         <b-nav-item-dropdown right>
           <template slot="button-content">
-            <img src="static/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
-            <span class="d-md-down-none">admin</span>
+            <img src="static/img/avatars/avatar.gif" class="img-avatar" alt="admin@bootstrapmaster.com">
+            <span class="d-md-down-none">Admin</span>
           </template>
           <!--<b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
           <b-dropdown-item><i class="fa fa-bell-o"></i> Updates<span class="badge badge-info">42</span></b-dropdown-item>
@@ -39,7 +39,7 @@
           <b-dropdown-item @click="logout"><i class="fa fa-lock"></i> Logout</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-nav>
-      <button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" @click="asideToggle">&#9776;</button>
+      <!--<button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" @click="asideToggle">&#9776;</button>-->
     </header>
   </div>
 
@@ -47,6 +47,14 @@
 <script>
 export default {
   name: 'headertop',
+  data(){
+    return{
+      user:[]
+    }
+  },
+  mounted() {
+      //this.getCampaignes()
+  },
   methods: {
     sidebarToggle (e) {
       e.preventDefault()
@@ -64,9 +72,20 @@ export default {
       e.preventDefault()
       document.body.classList.toggle('aside-menu-hidden')
     },
-      logout () {
-          window.location = '/logout';
-      }
+    logout () {
+        window.location = '/logout';
+    },
+    getProfile()
+    {
+      let urlCombo = '/api/getProfile/';
+      axios.get(urlCombo)
+          .then((response) => {
+              this.user = response.data
+          })
+          .catch((response) => {
+              console.log('Error', response);
+          })
+    }
   }
 }
 </script>

@@ -45,9 +45,9 @@ class LoginController extends Controller
 
     public function login(Request $request){
         $this->validateLogin($request);
-
+        $user = Auth::user();
         if (Auth::attempt(['email' => $request->email,'password' => $request->password])){
-            return redirect()->route('dashboard');
+            return redirect()->route('panel');
         }
 
         return back()

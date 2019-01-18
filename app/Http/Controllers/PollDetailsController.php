@@ -104,8 +104,26 @@ class PollDetailsController extends Controller
         {
             $filtered = $myArray->where('sino', 1);
             $sinoSi = $filtered->where('result',1);
+            if (count($sinoSi)>0)
+            {
+                foreach ($sinoSi as $item) {
+                    $storesSi[]=$item->store_id;
+                }
+            }else{
+                $storesSi[]="";
+            }
+
             $sinoNo = $filtered->where('result',0);
-            $results1 = array('type'=>'sino','poll_id'=>$poll_id,'si'=>$sinoSi->count(),'no'=>$sinoNo->count());
+            if (count($sinoNo)>0)
+            {
+                foreach ($sinoNo as $item) {
+                    $storesNo[]=$item->store_id;
+                }
+            }else{
+                $storesNo[]="";
+            }
+
+            $results1 = array('type'=>'sino','poll_id'=>$poll_id,'si'=>$sinoSi->count(),'no'=>$sinoNo->count(),'storesSi'=>$storesSi,'storesNo'=>$storesNo);
             if ($type==1){
                 return $results1;
             }
@@ -115,15 +133,23 @@ class PollDetailsController extends Controller
         {
             $options = $this->pollOptionRepo->getOptionsForPollId($poll_id);
             foreach ($options as $option) {
-                $nomb_opciones[] = $option->options;
+                if ($option->options_abreviado<>'')
+                {
+                    $nomb_opciones[] = $option->options_abreviado;
+                }else{
+                    $nomb_opciones[] = $option->options;
+                }
+
+                $id_opciones[]  =  $option->id;
                 $valores_opciones = $this->pollOptionDetailRepo->getResultForOption($option->id);
+                $storesOption[$option->id] = $valores_opciones;
                 $myArray = collect($valores_opciones);
                 $count_opciones[] = $myArray->count();
             }
-            $results2 = array('type'=>'option','poll_id'=>$poll_id,'opciones'=>$nomb_opciones,'count'=>$count_opciones);
+            $results2 = array('type'=>'option','poll_id'=>$poll_id,'opciones'=>$nomb_opciones,'count'=>$count_opciones,'options_id'=>$id_opciones,'storesOption'=>$storesOption);
             if ($type==3)
             {
-                $results3 = array('type'=>'sino/option','poll_id'=>$poll_id,'si'=>$results1['si'],'no'=>$results1['no'],'opciones'=>$nomb_opciones,'count'=>$count_opciones);
+                $results3 = array('type'=>'sino/option','poll_id'=>$poll_id,'si'=>$results1['si'],'no'=>$results1['no'],'storesSi'=>$storesSi,'storesNo'=>$storesNo,'opciones'=>$nomb_opciones,'count'=>$count_opciones,'options_id'=>$id_opciones,'storesOption'=>$storesOption);
                 return $results3;
             }
             return $results2;

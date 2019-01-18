@@ -67,13 +67,13 @@ and  `stores`.`ubigeo`=?) as `efectivos`', [ $company_id,$ubigeo,$company_id,$ub
     {
         switch ($company_id) {
             case 203:
-                if ($audit_id==69) {$comment="and `stores`.`comment`='1'";$identificador="abierto";}
-                if ($audit_id==70) {$comment="and `stores`.`comment`='1'";$identificador="abierto";}
+                if ($audit_id==69) {$comment="and `stores`.`comment`='1'";$identificador="canjistaEsta";}
+                if ($audit_id==70) {$comment="and `stores`.`comment`='1'";$identificador="canjistaEsta";}
                 if ($audit_id==71) {$comment="and `stores`.`comment`='1'";$identificador="canje";}
                 break;
             default:
-                if ($audit_id==69) {$comment="and `stores`.`comment`='1'";$identificador="abierto";}
-                if ($audit_id==71) {$comment="";$identificador="canje";}
+                if ($audit_id==69) {$comment="and `stores`.`comment`='1'";$identificador="canjistaEsta";}
+                if ($audit_id==71) {$comment="";$identificador="realizoEncuesta";}
                 break;
         }
         if ($ubigeo=="0")

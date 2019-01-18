@@ -33,6 +33,7 @@ Route::group(['middleware'=>['guest']],function(){
 //    Route::get('/', function () {
 //        return view('login');
 //    })->name('loginFormShow');
+    Route::get('/getProfile', 'UserController@getUserAuthenticated');
 });
 
 Route::group(['middleware'=>['auth']],function(){
@@ -43,10 +44,10 @@ Route::group(['middleware'=>['auth']],function(){
     })->name('dashboard');
     Route::get('/medirSod', function () {
         return view('dashboard');
-    });
+    })->name('medirSod');
     Route::get('/panel', function () {
         return view('dashboard');
-    });
+    })->name('panel');
 
 });
 

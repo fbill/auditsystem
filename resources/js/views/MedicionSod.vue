@@ -88,7 +88,7 @@
 
                 </div>
             </div>
-            <BlockStoresSod :objCampaigne="selectedCompany" :ubigeo="selectedUbigeo" :objAuditor="selectedAuditor" :objCategory="selectedCategory" :trabajado="trabajado" :tipo="tipo"></BlockStoresSod>
+            <BlockStoresSod ></BlockStoresSod>
         </div>
 
         <!--Loading Complemento-->
@@ -111,6 +111,7 @@
     import Loading from 'vue-loading-overlay';
     import 'vue-loading-overlay/dist/vue-loading.css';
     import BlockStoresSod from "./components/BlockStoresSod";
+    import EventBus from '../bus';
 
 
     export default {
@@ -149,10 +150,12 @@
                 isLoading1: false,
                 isLoading2: false,
                 isLoading3: false,
-                fullPage: false
+                fullPage: false,
+                selectedValues:[]
             }
         },
         methods:{
+
             countDownChanged (dismissCountDown) {
                 this.dismissCountDown = dismissCountDown
             },
@@ -196,6 +199,7 @@
                 this.ubigeos = [];
                 this.isLoading1 = true;//console.log(this.selectedCompany);
                 let urlCombo = '/api/getUbigeosForCampaigne/'+ this.selectedCompany.id;
+                //this.selectedValues =
                 axios.get(urlCombo)
                     .then((response) => {
                         this.ubigeos = response.data
@@ -240,6 +244,15 @@
                             if (this.selectedCategory.length == 0 )
                             {
                                 this.mensaje="No hay Categoria seleccionada";this.showAlert();
+                            }else{
+                                if (this.trabajado == 0)
+                                {
+                                    this.mensaje="No hay Tipo de Sod seleccionado";this.showAlert();
+                                }else{
+                                    this.mensaje=0;
+                                    this.selectedValues.push({objCompany: this.selectedCompany, ubigeo: this.selectedUbigeo,objAuditor: this.selectedAuditor, objCategory:this.selectedCategory, trabajado:this.trabajado, tipo:this.tipo});
+                                    EventBus.$emit('sendValuesSod', this.selectedValues);
+                                }
                             }
                         }
                     }

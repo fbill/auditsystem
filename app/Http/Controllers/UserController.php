@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\UserRepo;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Closure;
 
 class UserController extends Controller
 {
@@ -98,5 +101,15 @@ class UserController extends Controller
         $auditors = $this->userRepo->listUserCondition($type);
 
         return $auditors;
+    }
+
+    public function getUserAuthenticated()
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('Content-type: application/json');
+        if (Auth::user()->id) {
+            $user = Auth::user();
+            return $user;
+        }
     }
 }

@@ -33,7 +33,7 @@
                         <div>
                             <h2>TTAudit</h2>
                             <p>Sistema de Investigación y Control de Puntos de Venta.</p>
-                            <a href="http://dataservicios.com" target="_blank" class="btn btn-primary active mt-3">Visitanos</a>
+                            <a href="http://ttaudit.com" target="_blank" class="btn btn-primary active mt-3">Visitanos</a>
                         </div>
                     </div>
                 </div>

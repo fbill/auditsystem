@@ -5,13 +5,32 @@
                 <div class="col-sm-12 col-lg-12">
                     <div class="card">
                         <div class="card-header" >
-                            <button class="btn btn-link" type="button"  v-on:click="verForm = !verForm">
-                                <strong>Filter</strong> Campaigne Mistery Alicorp
-                            </button>
+                            <div class="row align-items-center mt-3">
+                                <div class="col-lg-3 col-sm-3 col-md-3 mb-2 mb-xl-0 text-center">
+                                    <button class="btn btn-link" type="button"  v-on:click="verForm = !verForm">
+                                        <strong>Campaigne</strong> Mistery Alicorp
+                                    </button>
+                                </div>
+                                <div class="col-lg-3 col-sm-3 col-md-3 mb-2 mb-xl-0 text-center">
+                                    <button class="btn btn-primary" type="link"><i class="icon-home"></i> Base:
+                                        <span class="badge badge-light badge-pill" style="position: static;">{{base}}</span>
+                                        Ruteados:
+                                        <span class="badge badge-light badge-pill" style="position: static;">{{ruteados}}</span>
+                                        Efectivos:
+                                        <span class="badge badge-light badge-pill" style="position: static;">{{efectivos}}</span>
+                                    </button>
+                                </div>
+                                <div class="col-lg-6 col-sm-6 col-md-6 mb-2 mb-xl-0 text-center">
+                                    <span class="badge badge-pill badge-success" v-if="selectedCompany != ''">{{selectedCompany.fullname}}</span>
+                                    <span class="badge badge-success" v-if="selectedAudit != ''">{{selectedAudit.audit}}</span>
+                                    <span class="badge badge-success" v-if="selectedUbigeo != ''">{{selectedUbigeo}}</span>
+                                    <span class="badge badge-pill badge-success" v-if="selectedCategory != ''">{{selectedCategory.fullname}}</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body" v-if="verForm" id="collapseOne" data-parent="#accordion">
                             <div class="form-group row">
-                                <label class="col-md-2 col-form-label">Campaña</label>
+                                <label class="col-md-2 col-form-label"><strong>Campaña</strong></label>
                                 <div class="col-md-4">
                                     <select class="form-control form-control-sm" v-model="selectedCompany" @change="loadCombos">
                                         <option value="" disabled>Seleccionar</option>
@@ -19,7 +38,7 @@
                                     </select>
                                     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="false" :height="20"></loading>
                                 </div>
-                                <label class="col-md-2 col-form-label">Auditorias</label>
+                                <label class="col-md-2 col-form-label"><strong>Auditorias</strong></label>
                                 <div class="col-md-4">
                                     <select class="form-control form-control-sm" v-model="selectedAudit" @change="populateCategory">
                                         <option value="" disabled>Seleccionar</option>
@@ -29,15 +48,15 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-2 col-form-label">Oficinas</label>
+                                <label class="col-md-2 col-form-label"><strong>Oficinas</strong></label>
                                 <div class="col-md-4">
                                     <select class="form-control form-control-sm" v-model="selectedUbigeo" @change="loadGraph()">
-                                        <option value="" disabled>Seleccionar</option>
+                                        <option value="" >TODOS</option>
                                         <option v-for="ubigeo in ubigeos"  :value="ubigeo.ubigeo">{{ ubigeo.ubigeo }} </option>
                                     </select>
                                     <loading :active.sync="isLoading2" :can-cancel="false" :is-full-page="false" :height="20"></loading>
                                 </div>
-                                <label class="col-md-2 col-form-label">Preguntas</label>
+                                <label class="col-md-2 col-form-label"><strong>Preguntas</strong></label>
                                 <div class="col-md-4">
                                     <select class="form-control form-control-sm" v-model="selectedCategory" @change="loadFirst()">
                                         <option value="" disabled>Seleccionar</option>
@@ -55,30 +74,7 @@
                                 {{mensaje}}
                             </b-alert>
                         </div>
-                        <div class="card-footer">
-                            <div class="row align-items-center mt-3">
-                                <div class="col-lg-4 col-sm-4 col-md-4 mb-2 mb-xl-0 text-center">
-                                    <button class="btn btn-primary" type="link"><i class="icon-home"></i> Base:
-                                        <span class="badge badge-light badge-pill" style="position: static;">{{base}}</span>
-                                    </button>
-                                    <button class="btn btn-primary" type="link"><i class="icon-pie-chart"></i> Ruteados:
-                                        <span class="badge badge-light badge-pill" style="position: static;">{{ruteados}}</span>
-                                    </button>
-                                    <button class="btn btn-primary" type="link"><i class="icon-pie-chart"></i> Efectivos:
-                                        <span class="badge badge-light badge-pill" style="position: static;">{{efectivos}}</span>
-                                    </button>
-                                </div>
-                                <div class="col-lg-8 col-sm-8 col-md-8 mb-2 mb-xl-0 text-center">
-                                    <span class="badge badge-pill badge-success" v-if="selectedCompany != ''">{{selectedCompany.fullname}}</span>
-                                    <span class="badge badge-success" v-if="selectedAudit != ''">{{selectedAudit.audit}}</span>
-                                    <span class="badge badge-success" v-if="selectedUbigeo != ''">{{selectedUbigeo}}</span>
-                                    <span class="badge badge-pill badge-success" v-if="selectedCategory != ''">{{selectedCategory.fullname}}</span>
-                                </div>
-                            </div>
-
-                        </div>
                     </div>
-
                 </div>
             </div>
 <!--<div class="row">
@@ -141,13 +137,21 @@
 </div>-->
 
             <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" v-for="poll in polls"  v-bind:key="poll.id">
-                    <div class="card">
-                        <div class="card-header">
-                            {{poll.question + "(" + poll.id + " tipo: " + poll.sino + " " + poll.options + ")"}}
-                        </div>
-                        <div class="card-body pb-0">
-                            <BlockGraph :poll="poll" :ubigeo="selectedUbigeo"></BlockGraph>
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" >
+                    <div class="accordion" id="accordionPolls">
+                        <div class="card" v-for="poll in polls"  v-bind:key="poll.id">
+                            <div class="card-header" v-bind:id="'heading' + poll.id">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" v-bind:data-target="'#collapse' + poll.id" aria-expanded="true" v-bind:aria-controls="'collapse' + poll.id">
+                                        {{poll.questionr}}
+                                    </button>
+                                </h5>
+                            </div>
+                            <div v-bind:id="'collapse' + poll.id" class="collapse" v-bind:aria-labelledby="'heading' + poll.id" data-parent="#accordionPolls">
+                                <div class="card-body">
+                                    <BlockGraph :poll="poll" :ubigeo="selectedUbigeo"></BlockGraph>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -163,7 +167,26 @@
             </loading>
 
         </div>-->
+        <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{opcion.opcion}}</h4>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <BlockDetailsOption :company_id="selectedCompany.id "></BlockDetailsOption>
+                    </div>
+                    <div class="modal-footer">
 
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
     </div>
 
 </template>
@@ -175,13 +198,14 @@
     import Loading from 'vue-loading-overlay';
     import 'vue-loading-overlay/dist/vue-loading.css';
     import BlockGraph from "./components/BlockGraph";
-
+    import BlockDetailsOption from "./components/BlockDetailsOption";
 
 
 
     export default {
         name: 'PanelContent',
         components: {
+            BlockDetailsOption,
             BlockGraph,
             Callout,
 
@@ -193,10 +217,11 @@
             /*let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);*/
 
 
-            EventBus.$on('changeCategories', (item) => {
+            EventBus.$on('loadValuesModal', (item) => {
                 //console.log(item)
-                this.audit_id=item;
-                this.populateCategory()
+                this.opcion=item;
+                //this.getStores();
+                EventBus.$emit('goStores', this.opcion);
             });
         },
         props: [],
@@ -231,7 +256,8 @@
                 isLoading1: false,
                 isLoading2: false,
                 isLoading3: false,
-                fullPage: false
+                fullPage: false,
+                opcion:0
             }
         },
         methods:{
@@ -387,8 +413,7 @@
                         console.log('Error', error);
                     })
 
-            },
-
+            }
         }
     }
 </script>

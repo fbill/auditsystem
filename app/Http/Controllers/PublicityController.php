@@ -191,11 +191,20 @@ class PublicityController extends Controller
                         }
                     }
                 }
-                dd($storesxCampaigne);
+
+                foreach ($storesxCampaigne as $item) {
+                    $resultEnd[] = $item[0];
+                }
+                $resultEnd1 = collect($resultEnd);
+                $resultSodNoMedidos = $resultEnd1->where('sod','<>',1);
+                $baseNoMedidos = $resultSodNoMedidos->groupBy('store_id');
             }else{
                 $storesxCampaigne = [];
+                $baseNoMedidos = [];
             }
+            $responsesSod = array('Base'=>$storesxCampaigne,'TotalBase'=>count($storesxCampaigne),'BaseNoMedidos'=>$baseNoMedidos,'TotalNoMedidos'=>count($baseNoMedidos));
+            return $responsesSod;
         }
-        return $storesxCampaigne;
+        //return $storesxCampaigne;
     }
 }
