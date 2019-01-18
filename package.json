@@ -15,7 +15,7 @@
         "bootstrap": "^4.0.0",
         "cross-env": "^5.1",
         "jquery": "^3.2",
-        "laravel-mix": "^2.0",
+        "laravel-mix": "^4.0",
         "lodash": "^4.17.5",
         "popper.js": "^1.12",
         "uglify-es": "^3.3.9",
@@ -28,7 +28,7 @@
         "chart.js": "^2.7.3",
         "font-awesome": "^4.7.0",
         "simple-line-icons": "^2.4.1",
-        "vue-chartjs": "^2.8.1",
+        "vue-chartjs": "^3.4.0",
         "vue-loading-overlay": "^3.0.1",
         "vue-router": "^3.0.1",
         "vue-strap": "^1.1.40"
